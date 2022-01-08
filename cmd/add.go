@@ -6,6 +6,8 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
+	"todocli/lib"
 
 	"github.com/spf13/cobra"
 )
@@ -15,7 +17,17 @@ var addCmd = &cobra.Command{
 	Use:   "add",
 	Short: "Add a task to your Todo List.",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("add called")
+		db, err := lib.InitDB()
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer db.Close()
+
+		t := lib.Task{Title: strings.Join(args, " ")}
+		if err := db.Save(&t); err != nil {
+			fmt.Println(err)
+		}
+		fmt.Printf("Task added: %s", t)
 	},
 }
 

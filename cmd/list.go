@@ -6,6 +6,7 @@ package cmd
 
 import (
 	"fmt"
+	"todocli/lib"
 
 	"github.com/spf13/cobra"
 )
@@ -15,7 +16,22 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List out all of the incomplete tasks on your task list.",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
+		db, err := lib.InitDB()
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer db.Close()
+
+		var tasks []lib.Task
+		if err := db.All(&tasks); err != nil {
+			fmt.Println(err)
+		}
+
+		fmt.Println("\nHere are the tasks on your todo list.")
+		for num, task := range tasks {
+			fmt.Printf("\t%d. %s\n", num, task)
+		}
+		fmt.Println()
 	},
 }
 
