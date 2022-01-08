@@ -20,12 +20,14 @@ var addCmd = &cobra.Command{
 		db, err := lib.InitDB()
 		if err != nil {
 			fmt.Println(err)
+			return
 		}
 		defer db.Close()
 
 		t := lib.Task{Title: strings.Join(args, " ")}
 		if err := db.Save(&t); err != nil {
 			fmt.Println(err)
+			return
 		}
 		fmt.Printf("Task added: %s", t)
 	},

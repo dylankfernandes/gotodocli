@@ -1,6 +1,8 @@
 package lib
 
 import (
+	"fmt"
+
 	storm "github.com/asdine/storm/v3"
 )
 
@@ -10,7 +12,7 @@ type Task struct {
 }
 
 func (t Task) String() string {
-	return t.Title
+	return fmt.Sprintf("%d. %s", t.ID, t.Title)
 }
 
 func InitDB() (*storm.DB, error) {

@@ -19,17 +19,19 @@ var listCmd = &cobra.Command{
 		db, err := lib.InitDB()
 		if err != nil {
 			fmt.Println(err)
+			return
 		}
 		defer db.Close()
 
 		var tasks []lib.Task
 		if err := db.All(&tasks); err != nil {
 			fmt.Println(err)
+			return
 		}
 
 		fmt.Println("\nHere are the tasks on your todo list.")
-		for num, task := range tasks {
-			fmt.Printf("\t%d. %s\n", num, task)
+		for _, t := range tasks {
+			fmt.Printf("\t%s\n", t)
 		}
 		fmt.Println()
 	},

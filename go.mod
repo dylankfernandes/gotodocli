@@ -3,6 +3,7 @@ module todocli
 go 1.17
 
 require (
+	github.com/asdine/storm v2.1.2+incompatible
 	github.com/asdine/storm/v3 v3.2.1
 	github.com/spf13/cobra v1.3.0
 )
